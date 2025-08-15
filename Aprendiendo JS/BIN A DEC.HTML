@@ -71,6 +71,21 @@
     .btn-primary:hover{transform:translateY(-2px)}
     .btn-outline{background:transparent;border:2px solid rgba(0,71,122,0.12);color:var(--secundario)}
 
+    /* Bloque en columna */
+    .botones-columna {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-width: 260px;
+    }
+
+    .botones-columna input {
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0,71,122,0.2);
+      font-size: 1rem;
+    }
+
     /* Footer profesional */
     footer.site-footer{margin-top:1.5rem;padding:1.25rem 0;background:linear-gradient(0deg,#f8fafb,white);border-top:1px solid rgba(4,71,122,0.04)}
     .footer-inner{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
@@ -98,12 +113,9 @@
         <div class="logo" aria-hidden>AV</div>
         <div>
           <h1>Aprendiendo.js — Plantilla</h1>
-    
         </div>
       </div>
-
       <nav class="main-nav" aria-label="Menú principal">
-  
       </nav>
     </div>
   </header>
@@ -115,32 +127,26 @@
           <h2 id="titulo-hero">Integra tus algoritmos con facilidad</h2>
           <p class="lead">Esta plantilla está lista para que arranques tus funciones desde el archivo <code>aprendiendo.js</code>. El botón <strong>Ejecutar algoritmo</strong> invoca la función <code>mi_primer_algoritmo()</code>.</p>
 
-          <div style="margin-top:.9rem;display:flex;gap:.6rem;flex-wrap:wrap">
+          <div class="botones-columna">
             <button class="btn btn-primary" onclick="llamarMiAlgoritmo()" aria-label="Ejecutar mi primer algoritmo">Ejecutar algoritmo</button>
-            
+            <input type="text" id="inputBinario" placeholder="Ingresa número binario">
+            <button class="btn btn-outline" onclick="llamarBinarioADecimal()">Binario a Decimal</button>
           </div>
 
-        
+          <div id="log" style="margin-top:1rem; padding:0.5rem; background:#fff; border-radius:6px; box-shadow:0 0 4px rgba(0,0,0,0.1)">
+            (sin resultado)
+          </div>
         </div>
-
       </div>
-    </section>
-
-    <section style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
- 
-  
     </section>
   </main>
 
   <footer class="site-footer">
-  
   </footer>
 
   <!-- Enlaza tu archivo de funciones. Colócalo en el mismo directorio: aprendiendo.js -->
   <script defer src="aprendiendo.js"></script>
   <script>
-    /* Wrapper seguro que intenta ejecutar la función definida por ti en aprendiendo.js.
-       Si no existe, avisa por consola y muestra un mensaje en el panel de salida. */
     function escribirSalida(text){
       const el = document.getElementById('log');
       el.textContent = (typeof text === 'undefined') ? '(sin resultado)' : String(text);
@@ -150,8 +156,6 @@
       try{
         if(typeof window.mi_primer_algoritmo === 'function'){
           const resultado = window.mi_primer_algoritmo();
-
-          // Si la función devuelve una promesa (async), la manejamos
           if(resultado && typeof resultado.then === 'function'){
             escribirSalida('Procesando...');
             resultado.then(res => escribirSalida(res)).catch(err=> escribirSalida('Error: '+err));
@@ -159,17 +163,32 @@
             escribirSalida(resultado);
           }
         } else {
-          escribirSalida('Función mi_primer_algoritmo() no encontrada. Crea-la en aprendiendo.js y exponla en window.');
-          console.warn('mi_primer_algoritmo no está definida. Asegúrate de exportarla a window.');
+          escribirSalida('Función mi_primer_algoritmo() no encontrada.');
         }
       }catch(err){
         escribirSalida('Error al ejecutar: '+err);
-        console.error(err);
       }
     }
 
-    // Mensaje auxiliar para desarrolladores
-    console.info('Plantilla cargada. Asegúrate de crear aprendiendo.js con la función mi_primer_algoritmo.');
+    function llamarBinarioADecimal(){
+      const binario = document.getElementById('inputBinario').value.trim();
+      if (!/^[01]+$/.test(binario)) {
+        escribirSalida("Por favor ingresa solo 0 y 1");
+        return;
+      }
+      try{
+        if(typeof window.binarioADecimal === 'function'){
+          const resultado = window.binarioADecimal(binario);
+          escribirSalida(resultado);
+        } else {
+          escribirSalida('Función binarioADecimal() no encontrada.');
+        }
+      }catch(err){
+        escribirSalida('Error al ejecutar: '+err);
+      }
+    }
+
+    console.info('Plantilla cargada.');
   </script>
 </body>
 </html>
