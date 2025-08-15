@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demo de algoritmos | aprendiendo.js</title>
+  <meta name="description" content="Plantilla responsiva con cabecera y pie profesional, e integración de funciones desde aprendiendo.js." />
+
+  <!-- Paleta y tipografía -->
+  <style>
+    :root{
+      --color-primario: #FFCF15;
+      --color-secundario: #00477A;
+      --color-fondo: #F7F9FC;
+      --color-texto: #0F1B2A;
+      --color-texto-suave: #4A5568;
+      --borde-suave: #E2E8F0;
+      --blanco: #FFFFFF;
+      --sombra: 0 6px 20px rgba(0,0,0,.08);
+      --radio: 12px;
+      --trans: 180ms ease;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.5;
+    }
+
+    /* Layout base */
+    .container {
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--blanco);
+      border: 1px solid var(--borde-suave);
+      border-radius: var(--radio);
+      box-shadow: var(--sombra);
+    }
+
+    /* Header profesional */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
+      border-bottom: 1px solid var(--borde-suave);
+      box-shadow: 0 8px 24px rgba(0,0,0,.05);
+    }
+    .header-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .brand-mark {
+      inline-size: 40px;
+      block-size: 40px;
+      border-radius: 10px;
+      background: conic-gradient(from 220deg at 50% 50%, var(--color-secundario), #0a5f99 40%, var(--color-primario) 75%, #ffe37a 90%, var(--color-secundario) 100%);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.6), 0 6px 16px rgba(0,0,0,.15);
+    }
+    .brand-name {
+      font-size: 1.1rem;
+      color: var(--color-secundario);
+    }
+    nav.primary-nav {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--color-texto);
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background var(--trans), color var(--trans);
+    }
+    .nav-link:hover { background: #f3f6fa; color: var(--color-secundario); }
+
+    /* Hero */
+    .hero {
+      padding: 38px 0 10px;
+    }
+    .hero .title {
+      font-size: clamp(1.5rem, 2.3vw + 1rem, 2.2rem);
+      margin: 0 0 8px;
+      color: var(--color-secundario);
+    }
+    .hero .subtitle {
+      margin: 0;
+      color: var(--color-texto-suave);
+      max-width: 65ch;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: color-mix(in srgb, var(--color-primario) 18%, #fff);
+      border: 1px solid #f0e5a2;
+      color: #6b5c00;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .85rem;
+      margin-bottom: 12px;
+    }
+    .hero-badge .dot {
+      inline-size: 8px;
+      block-size: 8px;
+      border-radius: 50%;
+      background: var(--color-primario);
+      box-shadow: 0 0 0 3px rgba(255,207,21,.25);
+    }
+
+    /* Sección principal */
+    .grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 840px) {
+      .grid {
+        grid-template-columns: 1.1fr .9fr;
+      }
+    }
+
+    .panel {
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      color: var(--color-secundario);
+    }
+    .panel p {
+      color: var(--color-texto-suave);
+      margin: 0 0 14px;
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--trans), box-shadow var(--trans), background var(--trans), color var(--trans);
+      text-decoration: none;
+      user-select: none;
+    }
+    .btn-primary {
+      background: var(--color-secundario);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(0,71,122,.25);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,71,122,.28); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-outline {
+      background: #fff;
+      color: var(--color-secundario);
+      border-color: #cfe2f1;
+    }
+    .btn-outline:hover { background: #f1f7fc; }
+
+    /* Salida */
+    .output {
+      background: #0b2030;
+      color: #e5f2ff;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      overflow: auto;
+      border: 1px solid #123a56;
+      min-height: 88px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .output .placeholder { color: #8fb6d4; }
+
+    /* Aside / info */
+    .tips {
+      display: grid;
+      gap: 10px;
+    }
+    .tip {
+      display: grid;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid var(--borde-suave);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .tip strong { color: var(--color-secundario); }
+
+    /* Footer profesional */
+    footer.site-footer {
+      margin-top: 32px;
+      border-top: 4px solid var(--color-primario);
+      background:
+        radial-gradient(1200px 120px at 50% 0%, rgba(255,207,21,.15), transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+      box-shadow: 0 -10px 20px rgba(0,0,0,.04);
+    }
+    .footer-inner {
+      padding: 18px 0 26px;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 700px) {
+      .footer-inner { grid-template-columns: 1.3fr .7fr; }
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--color-secundario);
+    }
+    .fineprint {
+      color: var(--color-texto-suave);
+      font-size: .9rem;
+    }
+    .footer-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .chip {
+      padding: 8px 12px;
+      background: #f1f7fc;
+      color: var(--color-secundario);
+      border: 1px solid #cfe2f1;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+
+    /* Accentos */
+    .accent-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primario), #ffd84d 40%, #ffd138 60%, var(--color-primario));
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabecera -->
+  <header class="site-header" role="banner">
+    <div class="accent-bar"></div>
+    <div class="container header-inner" aria-label="Cabecera principal">
+      <a class="brand" href="#" aria-label="Inicio">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">aprendiendo.js</span>
+      </a>
+      <nav class="primary-nav" aria-label="Navegación principal">
+        <a class="nav-link" href="#algoritmos">Algoritmos</a>
+        <a class="nav-link" href="#salida">Salida</a>
+        <a class="nav-link" href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenido -->
+  <main class="container" id="contenido" role="main">
+    <section class="hero">
+      <span class="hero-badge"><span class="dot"></span> Integración lista</span>
+      <h1 class="title">Ejecuta tus funciones con un clic</h1>
+      <p class="subtitle">Esta plantilla responsiva usa el color primario #FFCF15 y secundario #00477A. Ya está conectada para llamar mi_primer_algoritmo() desde el archivo aprendiendo.js.</p>
+    </section>
+
+    <section id="algoritmos" class="grid" aria-label="Panel de algoritmos">
+      <article class="card panel">
+        <h2>Mi primer algoritmo</h2>
+        <p>Pulsa el botón para ejecutar <strong>mi_primer_algoritmo()</strong>. La salida aparecerá abajo.</p>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+          <button id="runAlgoBtn" class="btn btn-primary" type="button" aria-controls="output" aria-live="polite">
+            Ejecutar mi_primer_algoritmo
+          </button>
+          <button id="clearBtn" class="btn btn-outline" type="button">
+            Limpiar salida
+          </button>
+        </div>
+
+        <div id="salida" style="height: 8px"></div>
+
+        <div class="output card" id="output" role="status" aria-live="polite" aria-atomic="true">
+          <span class="placeholder">La salida se mostrará aquí…</span>
+        </div>
+      </article>
+
+      <aside class="panel card">
+        <h2>Cómo agregar más funciones</h2>
+        <div class="tips">
+          <div class="tip">
+            <strong>1) Define en aprendiendo.js</strong>
+            <div>Ej.: function <em>mi_nuevo_algoritmo</em>() { return "¡Hola!"; }</div>
+          </div>
+          <div class="tip">
+            <strong>2) Conéctalo a un botón</strong>
+            <div>Duplica el botón y cambia el nombre de la función a invocar.</div>
+          </div>
+          <div class="tip">
+            <strong>3) Soporta sync/async</strong>
+            <div>La plantilla ya detecta Promesas y valores directos.</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="site-footer" role="contentinfo" id="contacto">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark" aria-hidden="true" style="inline-size:28px; block-size:28px;"></span>
+          <span>aprendiendo.js</span>
+        </div>
+        <p class="fineprint">Plantilla lista para producción. Accesible, responsiva y con integración de funciones personalizada.</p>
+      </div>
+      <div class="footer-links">
+        <span class="chip">#FFCF15</span>
+        <span class="chip">#00477A</span>
+        <a class="chip" href="#algoritmos">Algoritmos</a>
+        <a class="chip" href="#salida">Salida</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Carga tus funciones y algoritmos aquí -->
+  <script src="aprendiendo.js" defer></script>
+
+  <!-- Lógica de integración -->
+  <script>
+    (function () {
+      const $ = (sel) => document.querySelector(sel);
+      const outputEl = $('#output');
+      const runBtn = $('#runAlgoBtn');
+      const clearBtn = $('#clearBtn');
+
+      function renderOutput(value) {
+        const stamp = new Date().toLocaleTimeString();
+        const normalized = typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
+        outputEl.innerText = `[${stamp}] ` + normalized;
+      }
+
+      function renderError(err) {
+        const stamp = new Date().toLocaleTimeString();
+        outputEl.innerText = `[${stamp}] Error: ` + (err && err.message ? err.message : String(err));
+      }
+
+      runBtn?.addEventListener('click', async () => {
+        try {
+          if (typeof window.mi_primer_algoritmo !== 'function') {
+            renderError('No se encontró mi_primer_algoritmo(). Asegúrate de definirla en aprendiendo.js y que esté en el ámbito global (window).');
+            return;
+          }
+          // Soporta retorno síncrono o Promesa
+          const result = await Promise.resolve(window.mi_primer_algoritmo());
+          renderOutput(result === undefined ? 'La función no retornó valor.' : result);
+        } catch (e) {
+          renderError(e);
+        }
+      });
+
+      clearBtn?.addEventListener('click', () => {
+        outputEl.innerHTML = '<span class="placeholder">La salida se mostrará aquí…</span>';
+      });
+
+      // Accesibilidad: foco visible en teclado
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') document.body.classList.add('kbd');
+      }, { once: true });
+    })();
+  </script>
+
+  <!-- Ejemplo opcional (elimina esto cuando implementes en aprendiendo.js)
+  <script>
+    // Descomenta para probar sin aprendiendo.js:
+    // window.mi_primer_algoritmo = () => ({ ok: true, mensaje: '¡Funciona!' });
+  </script>
+  -->
+</body>
+</html>

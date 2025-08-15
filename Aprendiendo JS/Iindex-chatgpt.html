@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plantilla - Aprendiendo.js</title>
+  <style>
+    :root{
+      --primario: #FFCF15; /* amarillo */
+      --secundario: #00477A; /* azul */
+      --gris-claro: #f4f6f8;
+      --texto: #04293a;
+      --max-width: 1100px;
+      --radius: 12px;
+      --gap: 1rem;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color:var(--texto);
+      background: linear-gradient(180deg, #ffffff 0%, var(--gris-claro) 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:1.25rem;
+    }
+
+    /* Cabecera profesional */
+    header.site-header{
+      background:linear-gradient(90deg,var(--secundario), #003b66 60%);
+      color: white;
+      padding: .9rem 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--gap);}
+    .brand{display:flex;align-items:center;gap:.75rem}
+    .brand .logo{
+      width:48px;height:48px;border-radius:10px;background:var(--primario);display:inline-grid;place-items:center;font-weight:700;color:var(--secundario);
+      box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    }
+    .brand h1{font-size:1.05rem;margin:0}
+    nav.main-nav{display:flex;gap:.6rem;align-items:center}
+    nav.main-nav a{color:rgba(255,255,255,0.95);text-decoration:none;padding:.45rem .6rem;border-radius:8px;font-weight:600;font-size:.95rem}
+    nav.main-nav a:hover, nav.main-nav a:focus{background:rgba(255,255,255,0.06)}
+
+    /* Hero */
+    .hero{
+      background: white;
+      margin-top:1rem;
+      padding:1.35rem;
+      border-radius:var(--radius);
+      box-shadow:0 8px 24px rgba(2,6,23,0.06);
+      display:flex;flex-direction:column;gap:.8rem;
+    }
+    .hero-grid{display:grid;grid-template-columns:1fr 360px;gap:1rem;align-items:center}
+
+    .card{background:#fff;padding:1rem;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
+    .lead{font-size:1rem;color:#22333b}
+    .muted{color:#556b72;font-size:.95rem}
+
+    /* Botones */
+    .btn{display:inline-flex;align-items:center;gap:.6rem;border:0;padding:.6rem .9rem;border-radius:10px;font-weight:700;cursor:pointer}
+    .btn-primary{background:var(--primario);color:var(--secundario);box-shadow:0 8px 20px rgba(255,207,21,0.12)}
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-outline{background:transparent;border:2px solid rgba(0,71,122,0.12);color:var(--secundario)}
+
+    /* Footer profesional */
+    footer.site-footer{margin-top:1.5rem;padding:1.25rem 0;background:linear-gradient(0deg,#f8fafb,white);border-top:1px solid rgba(4,71,122,0.04)}
+    .footer-inner{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+    .small{font-size:.85rem;color:#556b72}
+
+    /* Responsividad */
+    @media (max-width:900px){
+      .hero-grid{grid-template-columns:1fr;}
+      nav.main-nav{display:none}
+    }
+
+    @media (max-width:480px){
+      .brand h1{font-size:.95rem}
+      .header-inner{padding:0 .5rem}
+    }
+
+    /* Accesibilidad foco */
+    a:focus, button:focus{outline:3px solid rgba(0,71,122,0.12);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden>AV</div>
+        <div>
+          <h1>Aprendiendo.js — Plantilla</h1>
+          <div class="muted">Interfaz profesional y responsive</div>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Menú principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#demo">Demo</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="inicio">
+    <section class="hero" aria-labelledby="titulo-hero">
+      <div class="hero-grid">
+        <div>
+          <h2 id="titulo-hero">Integra tus algoritmos con facilidad</h2>
+          <p class="lead">Esta plantilla está lista para que arranques tus funciones desde el archivo <code>aprendiendo.js</code>. El botón <strong>Ejecutar algoritmo</strong> invoca la función <code>mi_primer_algoritmo()</code>.</p>
+
+          <div style="margin-top:.9rem;display:flex;gap:.6rem;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="llamarMiAlgoritmo()" aria-label="Ejecutar mi primer algoritmo">Ejecutar algoritmo</button>
+            <a class="btn btn-outline" href="#" onclick="document.getElementById('output').scrollIntoView({behavior:'smooth'})">Ver salida</a>
+          </div>
+
+          <div id="output" class="card" style="margin-top:1rem">
+            <strong>Salida:</strong>
+            <pre id="log" class="muted" style="margin:0.5rem 0 0 0; white-space:pre-wrap; font-size:.95rem;">(Aquí aparecerán resultados de tu función)</pre>
+          </div>
+        </div>
+
+        <aside class="card">
+          <h3 style="margin-top:0">Guía rápida</h3>
+          <ul class="muted">
+            <li>Coloca tus funciones en <code>aprendiendo.js</code> y exportalas a <code>window</code> si usas módulos.</li>
+            <li>La plantilla incluye <code>llamarMiAlgoritmo()</code> que intenta invocar <code>mi_primer_algoritmo()</code> y muestra su resultado en el panel <strong>Salida</strong>.</li>
+            <li>Diseño responsive y accesible listo para producción.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+      <div class="card">
+        <h4 style="margin-top:0">Sobre aprendiendo.js</h4>
+        <p class="muted">Crea el archivo <code>aprendiendo.js</code> en el mismo directorio y define <code>function mi_primer_algoritmo() { ... }</code> o asigna <code>window.mi_primer_algoritmo = () =&gt; { ... }</code> si trabajas con módulos.</p>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0">Buenas prácticas</h4>
+        <ol class="muted">
+          <li>Devuelve resultados — evita alertas; usa <code>return</code> y deja que la interfaz los muestre.</li>
+          <li>Documenta tus funciones con comentarios o JSDoc.</li>
+          <li>Mantén lógica separada de UI: cálculos en <code>aprendiendo.js</code>, render en HTML.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="small">© 2025 — Plantilla creada para <strong>Aprendiendo.js</strong></div>
+      <div class="small">Contacto: <a href="mailto:tu@correo.com">tu@correo.com</a></div>
+    </div>
+  </footer>
+
+  <!-- Enlaza tu archivo de funciones. Colócalo en el mismo directorio: aprendiendo.js -->
+  <script defer src="aprendiendo.js"></script>
+  <script>
+    /* Wrapper seguro que intenta ejecutar la función definida por ti en aprendiendo.js.
+       Si no existe, avisa por consola y muestra un mensaje en el panel de salida. */
+    function escribirSalida(text){
+      const el = document.getElementById('log');
+      el.textContent = (typeof text === 'undefined') ? '(sin resultado)' : String(text);
+    }
+
+    function llamarMiAlgoritmo(){
+      try{
+        if(typeof window.mi_primer_algoritmo === 'function'){
+          const resultado = window.mi_primer_algoritmo();
+
+          // Si la función devuelve una promesa (async), la manejamos
+          if(resultado && typeof resultado.then === 'function'){
+            escribirSalida('Procesando...');
+            resultado.then(res => escribirSalida(res)).catch(err=> escribirSalida('Error: '+err));
+          } else {
+            escribirSalida(resultado);
+          }
+        } else {
+          escribirSalida('Función mi_primer_algoritmo() no encontrada. Crea-la en aprendiendo.js y exponla en window.');
+          console.warn('mi_primer_algoritmo no está definida. Asegúrate de exportarla a window.');
+        }
+      }catch(err){
+        escribirSalida('Error al ejecutar: '+err);
+        console.error(err);
+      }
+    }
+
+    // Mensaje auxiliar para desarrolladores
+    console.info('Plantilla cargada. Asegúrate de crear aprendiendo.js con la función mi_primer_algoritmo.');
+  </script>
+</body>
+</html>
