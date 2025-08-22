@@ -19,10 +19,12 @@ function ContarVocales(palabra){
         }
     });
     console.log(contarVocales);
+    return contarVocales;
 }
 
 var palabra = "Hola Mundo";
 ContarVocales(palabra);
+//Contar palabras
 
 function contarpalabras(texto){
 	var contar = 0;
@@ -30,16 +32,18 @@ function contarpalabras(texto){
     		contar++;
     });
     console.log(contar);
+    return contar;
 }
 var texto = "Presta atencion Rafael";
 contarpalabras(texto);
-
+//contar caracteres
 function contarcaracteres(texto){
 	var resultado = 0;
     texto.split("").forEach(element => {
     	resultado++;
     });
     console.log(resultado)
+    return resultado;
 }
 var texto = "Hola Mundo";
 contarcaracteres(texto);
