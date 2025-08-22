@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora Multifuncional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primario:#FFCF15;     /* amarillo */
+      --secundario:#00477A;   /* azul */
+      --bg:#F5F8FB;
+      --texto:#0A0F1C;
+      --blanco:#ffffff;
+    }
+
+    /* Reset básico */
+    *,*::before,*::after{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--texto);
+      background: var(--bg);
+    }
+
+    /* ===== Header con título azul/blanco ===== */
+    .header{
+      position: sticky; top:0; z-index:10;
+      background: linear-gradient(180deg, rgba(0,71,122,0.95) 0%, rgba(0,71,122,0.88) 100%);
+      padding: 2.2rem 1rem 2rem;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+    }
+    .header-title{
+      margin:0 0 .35rem 0;
+      text-align:center;
+      font-weight:700;
+      letter-spacing:.5px;
+      font-size: clamp(1.6rem, 2.4vw + 1rem, 2.4rem);
+      /* texto con degradado azul-blanco */
+      background: linear-gradient(90deg, #EAF3FF 0%, #A5D0FF 35%, #ffffff 70%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-shadow: 0 2px 18px rgba(255,255,255,0.25);
+    }
+    .header-subtitle{
+      margin:0;
+      text-align:center;
+      color:#E9F2FB;
+      font-weight:400;
+      opacity:.9;
+    }
+
+    /* ===== Layout principal: grid centrado ===== */
+    .main-content{
+      padding: 42px 18px 56px;
+      display:flex;
+      justify-content:center;
+    }
+    .card-container{
+      width:100%;
+      max-width:1200px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      align-items: stretch; /* todas las columnas misma altura */
+    }
+
+    /* ===== Cards iguales, centradas y con transiciones ===== */
+    .card{
+      background: var(--blanco);
+      border-radius: 18px;
+      border: 1.5px solid rgba(0,71,122,.08);
+      box-shadow: 0 10px 30px rgba(0,20,40,.08),
+                  0 2px 8px rgba(0,0,0,.04);
+      padding: 24px 22px;
+      display:flex; flex-direction:column;
+      min-height: 420px;                 /* asegura alturas uniformes */
+      transition: transform .45s ease, box-shadow .45s ease;
+      position:relative; overflow:hidden;
+    }
+    .card::after{ /* halo suave */
+      content:"";
+      position:absolute; inset:-60% -60% auto auto;
+      width:220px; height:220px; border-radius:50%;
+      background: radial-gradient(closest-side, rgba(255,207,21,.16), transparent 70%);
+      filter: blur(6px);
+      transform: translateZ(0);
+      pointer-events:none;
+    }
+    .card:hover{
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 18px 48px rgba(0,71,122,.16),
+                  0 6px 16px rgba(0,0,0,.08);
+    }
+
+    .card-title{
+      color: var(--secundario);
+      font-weight:700;
+      font-size: 1.45rem;
+      text-align:center;
+      margin: 2px 0 14px;
+    }
+
+    .input-group{
+      display:flex; flex-direction:column; gap:12px;
+      margin: 8px 0 10px;
+    }
+    .input-field{
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px solid var(--primario);
+      outline:none;
+      background:#fff;
+      transition: box-shadow .3s ease, border-color .3s ease, transform .2s ease;
+      font-size:1rem;
+    }
+    .input-field:focus{
+      border-color: var(--secundario);
+      box-shadow: 0 0 0 6px rgba(255,207,21,.18);
+      transform: translateY(-1px);
+    }
+
+    .btn{
+      margin-top: 6px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border:none;
+      font-weight:700;
+      font-size:1rem;
+      color:#00192b;
+      cursor:pointer;
+      background: linear-gradient(90deg, var(--primario), #ffd84a);
+      box-shadow: 0 8px 18px rgba(255,207,21,.35);
+      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(255,207,21,.48);
+      filter: brightness(1.03);
+    }
+
+    .result-group{
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(0,71,122,.18);
+      /* ocupa espacio para empujar el botón/inputs y uniformar la altura */
+      flex-grow:1;
+      display:flex; flex-direction:column; justify-content:flex-start;
+    }
+    .result-group p{
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+    .result{
+      color: var(--secundario);
+      font-weight:700;
+      letter-spacing:.2px;
+      transition: opacity .35s ease, transform .35s ease;
+      opacity:.0; transform: translateY(6px);
+    }
+    .result.mostrar{
+      opacity:1; transform: translateY(0);
+    }
+
+    /* ===== Footer ===== */
+    .footer{
+      background: var(--secundario);
+      color:#D7E9F9;
+      text-align:center;
+      padding: 22px 12px;
+      font-size:.95rem;
+      box-shadow: 0 -8px 22px rgba(0,0,0,.08);
+    }
+
+    /* Accesibilidad / error */
+    .is-error{ border-color:#e34747 !important; box-shadow:0 0 0 6px rgba(227,71,71,.12) !important; }
+    .msg-error{ color:#c62828; font-weight:600; }
+
+    @media (max-width: 420px){
+      .card{ min-height: 380px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header-title">Calculadora Multifuncional</h1>
+    <p class="header-subtitle">Conversores y operaciones binarias</p>
+  </header>
+
+  <main class="main-content">
+    <div class="card-container">
+
+      <!-- Card: Decimal a Binario/Octal/Hex -->
+      <div class="card" id="card-decimal-base">
+        <h2 class="card-title">Decimal a Binario, Octal, Hex</h2>
+        <div class="input-group">
+          <input type="number" id="decimal-input" placeholder="Número Decimal" class="input-field" inputmode="numeric">
+        </div>
+        <div class="result-group">
+          <p>Binario: <span id="binario-result" class="result"></span></p>
+          <p>Octal: <span id="octal-result" class="result"></span></p>
+          <p>Hexadecimal: <span id="hex-result" class="result"></span></p>
+        </div>
+      </div>
+
+      <!-- Card: Suma de Binarios -->
+      <div class="card" id="card-suma-binarios">
+        <h2 class="card-title">Suma de Binarios</h2>
+        <div class="input-group">
+          <input type="text" id="bin1-sum-input" placeholder="Primer Binario" class="input-field" pattern="[01]+" />
+          <input type="text" id="bin2-sum-input" placeholder="Segundo Binario" class="input-field" pattern="[01]+" />
+        </div>
+        <button id="sumar-btn" class="btn">Sumar</button>
+        <div class="result-group">
+          <p>Suma en Decimal: <span id="suma-decimal-result" class="result"></span></p>
+        </div>
+      </div>
+
+      <!-- Card: Hex a Decimal y Binario -->
+      <div class="card" id="card-hex-decimal">
+        <h2 class="card-title">Hex a Decimal y Binario</h2>
+        <div class="input-group">
+          <input type="text" id="hex-input" placeholder="Número Hexadecimal (ej: 1F)" class="input-field" />
+        </div>
+        <div class="result-group">
+          <p>Binario: <span id="hex-binario-result" class="result"></span></p>
+          <p>Decimal: <span id="hex-decimal-result" class="result"></span></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Calculadora Multifuncional. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    /* ===== Utilidades de conversión ===== */
+    function aBase(n, base){
+      const map="0123456789ABCDEF";
+      const sign = n < 0 ? "-" : "";
+      n = Math.abs(Math.trunc(Number(n) || 0));
+      if(n===0) return "0";
+      let out="";
+      while(n>0){ out = map[n % base] + out; n = Math.floor(n/base); }
+      return sign + out;
+    }
+    function binarioADecimal(bin){
+      if(!/^[01]+$/.test(bin)) return NaN;
+      let dec = 0, p = 1;
+      for(let i=bin.length-1;i>=0;i--){
+        if(bin[i]==="1") dec += p;
+        p <<= 1;
+      }
+      return dec;
+    }
+    function hexaADecimal(hex){
+      hex = (hex||"").trim().toUpperCase();
+      if(!/^[0-9A-F]+$/.test(hex)) return NaN;
+      const map="0123456789ABCDEF";
+      let dec=0, p=1;
+      for(let i=hex.length-1;i>=0;i--){
+        dec += map.indexOf(hex[i]) * p;
+        p *= 16;
+      }
+      return dec;
+    }
+
+    /* ===== Helpers UI ===== */
+    const show = (el, val) => {
+      el.textContent = val;
+      el.classList.remove('mostrar'); // reinicia transición
+      requestAnimationFrame(()=>{ el.classList.add('mostrar'); });
+    };
+    const setError = (input, on) => input.classList.toggle('is-error', !!on);
+
+    /* ===== Listeners ===== */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Decimal -> bases
+      const decIn = document.getElementById('decimal-input');
+      const outBin = document.getElementById('binario-result');
+      const outOct = document.getElementById('octal-result');
+      const outHex = document.getElementById('hex-result');
+
+      const handleDecimal = () => {
+        const val = decIn.value.trim();
+        if(val==="" || isNaN(Number(val))){ setError(decIn,true); show(outBin,""); show(outOct,""); show(outHex,""); return; }
+        setError(decIn,false);
+        const n = parseInt(val,10);
+        show(outBin, aBase(n,2));
+        show(outOct, aBase(n,8));
+        show(outHex, aBase(n,16));
+      };
+      decIn.addEventListener('input', handleDecimal);
+
+      // Suma de binarios
+      const b1 = document.getElementById('bin1-sum-input');
+      const b2 = document.getElementById('bin2-sum-input');
+      const btnSum = document.getElementById('sumar-btn');
+      const outSum = document.getElementById('suma-decimal-result');
+
+      btnSum.addEventListener('click', () => {
+        const s1 = b1.value.trim(), s2 = b2.value.trim();
+        const d1 = binarioADecimal(s1), d2 = binarioADecimal(s2);
+        setError(b1, isNaN(d1)); setError(b2, isNaN(d2));
+        if(isNaN(d1) || isNaN(d2)){ show(outSum, "—"); return; }
+        show(outSum, (d1 + d2).toString());
+      });
+
+      // Hex -> decimal & binario
+      const hexIn = document.getElementById('hex-input');
+      const outHexBin = document.getElementById('hex-binario-result');
+      const outHexDec = document.getElementById('hex-decimal-result');
+
+      const handleHex = () => {
+        const raw = hexIn.value.trim();
+        if(raw===""){ setError(hexIn,false); show(outHexBin,""); show(outHexDec,""); return; }
+        const dec = hexaADecimal(raw);
+        setError(hexIn, isNaN(dec));
+        if(isNaN(dec)){ show(outHexBin,"—"); show(outHexDec,"—"); return; }
+        show(outHexDec, dec.toString());
+        show(outHexBin, aBase(dec,2));
+      };
+      hexIn.addEventListener('input', handleHex);
+    });
+  </script>
+</body>
+</html>

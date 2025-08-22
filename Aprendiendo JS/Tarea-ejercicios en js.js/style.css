@@ -1,0 +1,92 @@
+/* === CONTENEDOR DE LAS CARDS === */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  align-items: stretch; /* Hace que todas las cards tengan la misma altura */
+}
+
+/* === CARD === */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #FFCF15;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 71, 122, 0.15);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuye el contenido interno */
+}
+
+/* Para que todos los títulos, inputs y resultados se centren */
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #00477A;
+  font-weight: 600;
+}
+
+/* === INPUTS === */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  padding: 0.8rem 1rem;
+  border: 2px solid #FFCF15;
+  border-radius: 10px;
+  background: #fff;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #00477A;
+  box-shadow: 0 0 10px #FFCF15;
+  outline: none;
+}
+
+/* === BOTON === */
+.btn {
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  background: #FFCF15;
+  color: #00477A;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #FFCF15;
+}
+
+/* === RESULTADOS === */
+.result-group {
+  margin-top: 1rem;
+  text-align: left;
+  flex-grow: 1; /* Esto hace que los resultados se alineen sin desajustar la altura */
+}
+
+.result-group p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.result {
+  color: #00477A;
+  font-weight: 600;
+}

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor Futurista</title>
+  <style>
+    :root {
+      --primario: #FFCF15;
+      --secundario: #00477A;
+      --bg: #0a0f1f;
+      --texto: #f1f1f1;
+      --glass: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--texto);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header futurista */
+    header {
+      background: linear-gradient(135deg, var(--secundario), var(--primario));
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      box-shadow: 0 0 20px var(--primario);
+      text-shadow: 0 0 15px rgba(255,255,255,0.7);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      background: linear-gradient(135deg, var(--primario), var(--secundario));
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 15px var(--primario);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      display: grid;
+      gap: 2rem;
+    }
+
+    /* Cards con efecto glass */
+    .card {
+      background: var(--glass);
+      border-radius: 20px;
+      padding: 1.5rem;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 25px rgba(255,255,255,0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 0 25px var(--primario), 0 0 40px var(--secundario);
+    }
+
+    h2 {
+      color: var(--primario);
+      margin-top: 0;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(255,207,21,0.8);
+    }
+
+    input, select, button {
+      padding: 0.7rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      width: 100%;
+      margin: 0.6rem 0;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    input, select {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primario);
+      box-shadow: 0 0 12px var(--primario);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--primario), #ffdb4d);
+      color: #222;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,207,21,0.7);
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--primario), 0 0 40px var(--primario);
+    }
+
+    .resultado {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: bold;
+      background: rgba(0, 71, 122, 0.2);
+      color: var(--primario);
+      box-shadow: inset 0 0 15px rgba(255,207,21,0.2);
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .resultado.mostrar {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 768px) {
+      main {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    ✨ Conversor Numérico Futurista
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Conversión Decimal</h2>
+      <input type="number" id="decimalInput" placeholder="Número decimal">
+      <button onclick="convertirDecimalUI()">Convertir</button>
+      <div id="resultadoConversion" class="resultado"></div>
+    </div>
+
+    <div class="card">
+      <h2>Operaciones Binarias</h2>
+      <input type="text" id="bin1" placeholder="Binario 1 (ej. 1010)">
+      <input type="text" id="bin2" placeholder="Binario 2 (ej. 0011)">
+      <select id="operacion">
+        <option value="suma">Suma</option>
+        <option value="resta">Resta</option>
+        <option value="multiplicacion">Multiplicación</option>
+        <option value="division">División</option>
+      </select>
+      <button onclick="operarBinariosUI()">Calcular</button>
+      <div id="resultadoOperacion" class="resultado"></div>
+    </div>
+
+    <div class="card">
+      <h2>Tabla de Multiplicar</h2>
+      <input type="number" id="tablaInput" placeholder="Número (ej. 5)">
+      <button onclick="tablaMultiplicarUI()">Generar</button>
+      <div id="resultadoTabla" class="resultado"></div>
+    </div>
+
+    <div class="card">
+      <h2>Sumas Especiales</h2>
+      <button onclick="sumaParesUI()">Suma de pares (1-50)</button>
+      <button onclick="sumaPrimosUI()">Suma de primos (1-100)</button>
+      <div id="resultadoSuma" class="resultado"></div>
+    </div>
+  </main>
+
+  <footer>
+    ⚡ Proyecto Interactivo 2025 - Estilo Futurista
+  </footer>
+
+  <script>
+    // Funciones base
+    function aBase(numero, base) {
+      const digitos = "0123456789ABCDEF";
+      if (numero === 0) return "0";
+      let resultado = "";
+      while (numero > 0) {
+        let residuo = numero % base;
+        resultado = digitos[residuo] + resultado;
+        numero = Math.floor(numero / base);
+      }
+      return resultado;
+    }
+
+    function binarioADecimal(binario) {
+      let decimal = 0, potencia = 1;
+      for (let i = binario.length - 1; i >= 0; i--) {
+        if (binario[i] === '1') decimal += potencia;
+        potencia *= 2;
+      }
+      return decimal;
+    }
+
+    // Mostrar resultado con animación
+    function mostrarResultado(id, contenido) {
+      let div = document.getElementById(id);
+      div.innerHTML = contenido;
+      div.classList.remove("mostrar");
+      setTimeout(() => div.classList.add("mostrar"), 50);
+    }
+
+    // Conversión Decimal
+    function convertirDecimalUI() {
+      let numero = parseInt(document.getElementById("decimalInput").value);
+      if (isNaN(numero)) return alert("Ingrese un número válido");
+      mostrarResultado("resultadoConversion",
+        `Binario: ${aBase(numero,2)}<br>Octal: ${aBase(numero,8)}<br>Hexadecimal: ${aBase(numero,16)}`);
+    }
+
+    // Operaciones binarias
+    function operarBinariosUI() {
+      let bin1 = document.getElementById("bin1").value;
+      let bin2 = document.getElementById("bin2").value;
+      let operacion = document.getElementById("operacion").value;
+      let a = binarioADecimal(bin1);
+      let b = binarioADecimal(bin2);
+      let resultado;
+
+      switch (operacion) {
+        case "suma": resultado = a + b; break;
+        case "resta": resultado = a - b; break;
+        case "multiplicacion": resultado = a * b; break;
+        case "division":
+          if (b === 0) return alert("División por cero no permitida");
+          resultado = Math.floor(a / b); break;
+      }
+
+      mostrarResultado("resultadoOperacion",
+        `Decimal: ${resultado}<br>Binario: ${aBase(resultado,2)}<br>Hexadecimal: ${aBase(resultado,16)}`);
+    }
+
+    // Tabla de multiplicar
+    function tablaMultiplicarUI() {
+      let numero = parseInt(document.getElementById("tablaInput").value);
+      if (isNaN(numero)) return alert("Ingrese un número válido");
+      let html = "";
+      for (let i=1; i<=10; i++) {
+        html += `${numero} x ${i} = ${numero*i}<br>`;
+      }
+      mostrarResultado("resultadoTabla", html);
+    }
+
+    // Suma de pares
+    function sumaParesUI() {
+      let suma = 0;
+      for (let i=2; i<=50; i+=2) suma += i;
+      mostrarResultado("resultadoSuma", `Suma de pares (1-50): ${suma}`);
+    }
+
+    // Suma de primos
+    function esPrimo(n) {
+      if (n < 2) return false;
+      for (let i=2; i<=Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    }
+
+    function sumaPrimosUI() {
+      let suma = 0;
+      for (let i=2; i<=100; i++) {
+        if (esPrimo(i)) suma += i;
+      }
+      mostrarResultado("resultadoSuma", `Suma de primos (1-100): ${suma}`);
+    }
+  </script>
+</body>
+</html>

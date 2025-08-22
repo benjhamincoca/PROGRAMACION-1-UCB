@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor y Operaciones Numéricas</title>
+  <style>
+    :root {
+      --primario: #FFCF15;
+      --secundario: #00477A;
+      --gris: #f5f5f5;
+      --oscuro: #222;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--gris);
+      color: var(--oscuro);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--secundario);
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      margin-top: auto;
+      background: var(--secundario);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      display: grid;
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: var(--secundario);
+      margin-top: 0;
+    }
+
+    input, select, button {
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+      margin: 0.5rem 0;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: var(--primario);
+      color: var(--oscuro);
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e5b914;
+    }
+
+    .resultado {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--gris);
+      border-radius: 8px;
+      font-weight: bold;
+      color: var(--secundario);
+    }
+
+    @media (min-width: 768px) {
+      main {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    🔢 Conversor y Operaciones Numéricas
+  </header>
+
+  <main>
+    <!-- Conversión Decimal -->
+    <div class="card">
+      <h2>Conversión Decimal</h2>
+      <input type="number" id="decimalInput" placeholder="Ingresa un número decimal">
+      <button onclick="convertirDecimalUI()">Convertir</button>
+      <div id="resultadoConversion" class="resultado"></div>
+    </div>
+
+    <!-- Operaciones Binarias -->
+    <div class="card">
+      <h2>Operaciones Binarias</h2>
+      <input type="text" id="bin1" placeholder="Binario 1 (ej. 1010)">
+      <input type="text" id="bin2" placeholder="Binario 2 (ej. 0011)">
+      <select id="operacion">
+        <option value="suma">Suma</option>
+        <option value="resta">Resta</option>
+        <option value="multiplicacion">Multiplicación</option>
+        <option value="division">División</option>
+      </select>
+      <button onclick="operarBinariosUI()">Calcular</button>
+      <div id="resultadoOperacion" class="resultado"></div>
+    </div>
+
+    <!-- Tabla de Multiplicar -->
+    <div class="card">
+      <h2>Tabla de Multiplicar</h2>
+      <input type="number" id="tablaInput" placeholder="Número (ej. 5)">
+      <button onclick="tablaMultiplicarUI()">Generar</button>
+      <div id="resultadoTabla" class="resultado"></div>
+    </div>
+
+    <!-- Sumas especiales -->
+    <div class="card">
+      <h2>Sumas Especiales</h2>
+      <button onclick="sumaParesUI()">Suma de pares (1-50)</button>
+      <button onclick="sumaPrimosUI()">Suma de primos (1-100)</button>
+      <div id="resultadoSuma" class="resultado"></div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 - Proyecto Interactivo de Conversión Numérica
+  </footer>
+
+  <script>
+    // Funciones base
+    function aBase(numero, base) {
+      const digitos = "0123456789ABCDEF";
+      if (numero === 0) return "0";
+      let resultado = "";
+      while (numero > 0) {
+        let residuo = numero % base;
+        resultado = digitos[residuo] + resultado;
+        numero = Math.floor(numero / base);
+      }
+      return resultado;
+    }
+
+    function binarioADecimal(binario) {
+      let decimal = 0, potencia = 1;
+      for (let i = binario.length - 1; i >= 0; i--) {
+        if (binario[i] === '1') decimal += potencia;
+        potencia *= 2;
+      }
+      return decimal;
+    }
+
+    // Conversión Decimal
+    function convertirDecimalUI() {
+      let numero = parseInt(document.getElementById("decimalInput").value);
+      if (isNaN(numero)) return alert("Ingrese un número válido");
+      document.getElementById("resultadoConversion").innerHTML =
+        `Binario: ${aBase(numero,2)}<br>Octal: ${aBase(numero,8)}<br>Hexadecimal: ${aBase(numero,16)}`;
+    }
+
+    // Operaciones binarias
+    function operarBinariosUI() {
+      let bin1 = document.getElementById("bin1").value;
+      let bin2 = document.getElementById("bin2").value;
+      let operacion = document.getElementById("operacion").value;
+      let a = binarioADecimal(bin1);
+      let b = binarioADecimal(bin2);
+      let resultado;
+
+      switch (operacion) {
+        case "suma": resultado = a + b; break;
+        case "resta": resultado = a - b; break;
+        case "multiplicacion": resultado = a * b; break;
+        case "division":
+          if (b === 0) return alert("División por cero no permitida");
+          resultado = Math.floor(a / b); break;
+      }
+
+      document.getElementById("resultadoOperacion").innerHTML =
+        `Decimal: ${resultado}<br>Binario: ${aBase(resultado,2)}<br>Hexadecimal: ${aBase(resultado,16)}`;
+    }
+
+    // Tabla de multiplicar
+    function tablaMultiplicarUI() {
+      let numero = parseInt(document.getElementById("tablaInput").value);
+      if (isNaN(numero)) return alert("Ingrese un número válido");
+      let html = "";
+      for (let i=1; i<=10; i++) {
+        html += `${numero} x ${i} = ${numero*i}<br>`;
+      }
+      document.getElementById("resultadoTabla").innerHTML = html;
+    }
+
+    // Suma de pares
+    function sumaParesUI() {
+      let suma = 0;
+      for (let i=2; i<=50; i+=2) suma += i;
+      document.getElementById("resultadoSuma").innerHTML =
+        `Suma de pares (1-50): ${suma}`;
+    }
+
+    // Suma de primos
+    function esPrimo(n) {
+      if (n < 2) return false;
+      for (let i=2; i<=Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    }
+
+    function sumaPrimosUI() {
+      let suma = 0;
+      for (let i=2; i<=100; i++) {
+        if (esPrimo(i)) suma += i;
+      }
+      document.getElementById("resultadoSuma").innerHTML =
+        `Suma de primos (1-100): ${suma}`;
+    }
+  </script>
+</body>
+</html>
