@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analizador de Texto</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-align: center;
+      transition: all 0.5s ease;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 700px;
+      height: 180px;
+      border-radius: 12px;
+      border: none;
+      padding: 15px;
+      font-size: 1rem;
+      outline: none;
+      resize: none;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    textarea:focus {
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+    }
+
+    .resultados {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(6px);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 2rem;
+      color: #00d4ff;
+      transition: color 0.3s ease;
+    }
+
+    .card p {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Analizador de Texto</h1>
+  <textarea id="texto" placeholder="Escribe o pega tu texto aquí..."></textarea>
+
+  <div class="resultados">
+    <div class="card">
+      <h2 id="caracteres">0</h2>
+      <p>Caracteres</p>
+    </div>
+    <div class="card">
+      <h2 id="palabras">0</h2>
+      <p>Palabras</p>
+    </div>
+    <div class="card">
+      <h2 id="vocales">0</h2>
+      <p>Vocales</p>
+    </div>
+  </div>
+
+  <script>
+    const textarea = document.getElementById("texto");
+    const caracteres = document.getElementById("caracteres");
+    const palabras = document.getElementById("palabras");
+    const vocales = document.getElementById("vocales");
+
+    function analizarTexto() {
+      const texto = textarea.value;
+
+      // Caracteres (incluyendo espacios)
+      caracteres.textContent = texto.length;
+
+      // Palabras (filtrando vacíos)
+      const listaPalabras = texto.trim().split(/\s+/).filter(Boolean);
+      palabras.textContent = listaPalabras.length;
+
+      // Vocales (mayúsculas y minúsculas)
+      const matchVocales = texto.match(/[aeiouáéíóúüAEIOUÁÉÍÓÚÜ]/g);
+      vocales.textContent = matchVocales ? matchVocales.length : 0;
+    }
+
+    textarea.addEventListener("input", analizarTexto);
+  </script>
+</body>
+</html>

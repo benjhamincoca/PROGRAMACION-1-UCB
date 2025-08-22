@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analizador de Texto Futurista</title>
+  <style>
+    /* === Estilo General === */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .container:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: cyan;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 15px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      resize: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    textarea:focus {
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 12px cyan;
+    }
+
+    .btn {
+      background: cyan;
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      margin: 10px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .btn:hover {
+      background: #00e0e0;
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px cyan;
+    }
+
+    .results {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+      font-size: 1.2rem;
+      text-align: left;
+    }
+
+    .results p {
+      margin: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Analizador Futurista</h1>
+    <textarea id="texto" placeholder="Escribe tu texto aquí..."></textarea>
+    <br>
+    <button class="btn" onclick="contarVocales()">Contar Vocales</button>
+    <button class="btn" onclick="contarPalabras()">Contar Palabras</button>
+    <button class="btn" onclick="contarCaracteres()">Contar Caracteres</button>
+    <div class="results" id="resultado">
+      <p>Resultados aparecerán aquí...</p>
+    </div>
+  </div>
+
+  <script>
+    function contarVocales() {
+      const texto = document.getElementById("texto").value.toLowerCase();
+      const coincidencias = texto.match(/[aeiouáéíóú]/g);
+      const total = coincidencias ? coincidencias.length : 0;
+      mostrarResultado(`Cantidad de vocales: <strong>${total}</strong>`);
+    }
+
+    function contarPalabras() {
+      const texto = document.getElementById("texto").value.trim();
+      const palabras = texto.length > 0 ? texto.split(/\s+/).length : 0;
+      mostrarResultado(`Cantidad de palabras: <strong>${palabras}</strong>`);
+    }
+
+    function contarCaracteres() {
+      const texto = document.getElementById("texto").value;
+      mostrarResultado(`Cantidad de caracteres: <strong>${texto.length}</strong>`);
+    }
+
+    function mostrarResultado(mensaje) {
+      document.getElementById("resultado").innerHTML = `<p>${mensaje}</p>`;
+    }
+  </script>
+</body>
+</html>
