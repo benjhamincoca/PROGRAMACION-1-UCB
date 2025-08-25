@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo con onclick</title>
+    <style>
+        /*
+            -----------------------------------------------------------------------------------------------------------
+            SECCIÓN 1: VARIABLES Y FUENTES
+            -----------------------------------------------------------------------------------------------------------
+            En esta sección se definen las variables CSS para los colores y se importan las fuentes.
+            Esto permite una gestión centralizada y fácil de la paleta de colores y la tipografía.
+        */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+
+        :root {
+            /* Paleta de colores */
+            --color-background-primary: #f8f9fa; /* Gris muy claro, casi blanco */
+            --color-background-card: #ffffff; /* Blanco puro para el contenedor */
+            --color-text-primary: #343a40; /* Gris oscuro para el texto principal */
+            --color-text-secondary: #adb5bd; /* Gris medio para el texto secundario (placeholder) */
+            --color-accent: #6c757d; /* Gris azulado elegante como color de acento */
+            --color-accent-hover: #495057; /* Gris más oscuro para el hover */
+            --color-border: #e9ecef; /* Gris claro para los bordes */
+            --color-shadow: rgba(0, 0, 0, 0.08); /* Sombra sutil y elegante */
+        }
+
+        /*
+            -----------------------------------------------------------------------------------------------------------
+            SECCIÓN 2: ESTILOS GENERALES Y LAYOUT
+            -----------------------------------------------------------------------------------------------------------
+            Estos estilos se aplican a toda la página para definir el fondo, la fuente y la alineación general.
+        */
+        body {
+            font-family: 'Montserrat', sans-serif; /* Tipografía moderna y legible */
+            background-color: var(--color-background-primary);
+            color: var(--color-text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /*
+            -----------------------------------------------------------------------------------------------------------
+            SECCIÓN 3: ESTILOS DEL CONTENEDOR PRINCIPAL
+            -----------------------------------------------------------------------------------------------------------
+            Aquí se estiliza la "card" o el contenedor que envuelve a los elementos del formulario.
+        */
+        .container {
+            background-color: var(--color-background-card);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px var(--color-shadow);
+            width: 100%;
+            max-width: 800px;
+            transition: transform 0.3s ease-in-out;
+            
+            /* Contenedor flexible para alinear los elementos horizontalmente */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px; /* Espacio entre los elementos */
+        }
+
+        /* Efecto de elevación al pasar el cursor */
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Contenedor específico para el título y el resultado */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            flex-shrink: 0;
+        }
+
+        /* Contenedor para los campos de entrada y el botón */
+        .right-panel {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1; /* Permite que este panel ocupe el espacio disponible */
+        }
+
+        /*
+            -----------------------------------------------------------------------------------------------------------
+            SECCIÓN 4: ESTILOS DE COMPONENTES
+            -----------------------------------------------------------------------------------------------------------
+            Esta sección agrupa los estilos de elementos específicos como encabezados, inputs y botones.
+        */
+        h2 {
+            font-weight: 400; /* Peso de fuente para un aspecto más ligero */
+            font-size: 1.8rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+            color: var(--color-text-primary);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--color-text-primary);
+            background-color: var(--color-background-primary);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none; /* Eliminar el contorno al hacer clic */
+            flex-grow: 1;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 5px rgba(108, 117, 125, 0.2);
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--color-text-secondary);
+        }
+
+        button {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--color-accent);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.2);
+            flex-shrink: 0;
+        }
+
+        button:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 6px 20px rgba(73, 80, 87, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /*
+            -----------------------------------------------------------------------------------------------------------
+            SECCIÓN 5: ESTILOS DEL RESULTADO
+            -----------------------------------------------------------------------------------------------------------
+            Estilos para el párrafo donde se muestra el resultado.
+        */
+        #resultado {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            min-height: 1.5rem; /* Mantiene el espacio y evita el "salto" de contenido */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            text-align: center;
+            width: 100%; /* Asegura que ocupe todo el ancho para la alineación */
+        }
+
+        /* Clase para la animación de entrada del texto del resultado */
+        #resultado.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Media queries para que se vea bien en pantallas pequeñas */
+        @media (max-width: 650px) {
+            .container {
+                flex-direction: column;
+                padding: 2rem;
+            }
+
+            .right-panel {
+                flex-direction: column;
+                width: 100%;
+                gap: 20px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            #resultado {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2>¿Cuál es tu nombre?</h2>
+            <p id="resultado"></p>
+        </div>
+        <div class="right-panel">
+            <input type="text" id="nombre" placeholder="Escribe tu nombre" />
+            <button onclick="mostrarNombre()">Mostrar Nombre</button>
+        </div>
+    </div>
+
+    <script>
+        function mostrarNombre() {
+            const nombre = document.getElementById("nombre").value;
+            const resultado = document.getElementById("resultado");
+
+            resultado.classList.remove('visible');
+
+            setTimeout(() => {
+                if (nombre.trim() === "") {
+                    resultado.textContent = "Por favor, ingresa un nombre.";
+                } else {
+                    resultado.textContent = "Hola, " + nombre + " 👋";
+                }
+                resultado.classList.add('visible');
+            }, 100); 
+        }
+    </script>
+</body>
+</html>
