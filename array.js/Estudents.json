@@ -1,0 +1,23 @@
+[
+    {
+        "nombre": "Vera Lucia Gomez Duran.",
+        "edad": 18,
+        "correo": "vera.gomez@ucb.edu.bo",
+        "carrera": "Biotecnologia",
+        "telefono": "76016407"
+    },
+    {
+        "nombre": "Francisco Javier Aguilera Urgel.",
+        "edad": 18,
+        "correo": "francisco.aguilera@ucb.edu.bo",
+        "carrera": "Ingenieria industrial.",
+        "telefono": "77625626"
+    },
+    {
+        "nombre": "Mateo Cossio Villena.",
+        "edad": 18,
+        "correo": "mcossio@ucb.edu.bo",
+        "carrera": "Ingenieria Industrial.",
+        "telefono": "75027212"
+    }
+]
