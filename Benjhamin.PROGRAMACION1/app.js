@@ -2,6 +2,7 @@
 const canvas = document.getElementById("matrixCanvas");
 const fillButton = document.getElementById("fillBtn");
 const ClearButton = document.getElementById("clearBtn");
+const incrementButton = document.getElementById("incrementBtn");
 
 //contexto de dibujo
 const context = canvas.getContext("2d");
@@ -15,6 +16,7 @@ function initializeCanvas(){
     drawMatrix();
     window.addEventListener("resize", drawMatrix);
     fillButton.addEventListener("click", fillMatrix);
+    incrementButton.addEventListener("click", fillIncrementRows);
     ClearButton.addEventListener("click", clearCanvas);
 }
 
@@ -47,6 +49,10 @@ function fillMatrix(){
     drawMatrix();
 }
 
+function fillIncrementRows(){
+    matrix.fillIncrementRows();
+    drawMatrix();
+}
 // Limpia el canvas y la matriz
 function clearCanvas(){
     context.clearRect(0, 0, canvas.width, canvas.height);

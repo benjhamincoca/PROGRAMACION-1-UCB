@@ -49,11 +49,12 @@ class Matrix {
         var initialValue = 1;
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
-                this.data[i][j] = initialValue; // Asigna el mismo valor (e.g., 1) a toda la fila
+                this.data[i][j] = initialValue;
             }
-            initialValue++; // Incrementa el valor (a 2) para la siguiente fila
+            initialValue++; // El valor se incrementa después de llenar toda la fila
         }
     }
+
     toString() {
         return this.data.map(row => row.join('\t')).join('\n');
     }
