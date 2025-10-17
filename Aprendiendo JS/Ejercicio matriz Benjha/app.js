@@ -22,6 +22,15 @@ function initializeCanvas() {
     esquina.addEventListener('click', esquinade1);
     esquinadere.addEventListener('click', esquinaderecha);
     cuadricula.addEventListener('click', cuadriculade1);
+    TrianguloCentral.addEventListener('click', triangulocentral);
+    Rombo.addEventListener('click', rombosconcentricos);
+    Crucesconcentricas.addEventListener('click', crucesconcentricas);
+    diagonal.addEventListener('click', banderaDiagonal);
+    cuadradoenCuadrado.addEventListener('click', cuadradoDentroDeCuadrado);
+    Bordesycentros.addEventListener('click', bordes_centros);
+    lineas_Paralelas.addEventListener('click', lineasParalelas);
+    marcas_DeCruz.addEventListener('click', marcasDeCruz);
+    romboDe_Esquinas.addEventListener('click', romboDeEsquinas);
 }
 
 
@@ -109,8 +118,51 @@ function cuadriculade1(){
     drawMatrix();
 }
 
+function triangulocentral(){
+    matrix.triangulocentral();
+    drawMatrix();
+}
 function clearCanvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
+function rombosconcentricos(){
+    matrix.rombosconcentricos();
+    drawMatrix();
+}
 
+function crucesconcentricas(){
+    matrix.crucesconcentricas();
+    drawMatrix();
+}
+
+// Dentro de apps.js (junto a fillMatrix, todo1, etc.)
+
+function banderaDiagonal() {
+    matrix.banderaDiagonal(); 
+    drawMatrix();             
+}
+
+function cuadradoDentroDeCuadrado(){
+    matrix.cuadradoDentroDeCuadrado();
+    drawMatrix();
+}
+
+function bordes_centros(){
+    matrix.bordes_centros();
+    drawMatrix();
+}
+function lineasParalelas(){
+    matrix.lineasParalelas();
+    drawMatrix();
+}
+
+function marcasDeCruz(){
+    matrix.marcasDeCruz();
+    drawMatrix();
+}
+
+function romboDeEsquinas(){
+    matrix.romboDeEsquinas();
+    drawMatrix();
+}
 initializeCanvas();
