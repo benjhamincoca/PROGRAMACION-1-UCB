@@ -435,4 +435,15 @@ class Matrix {
     toString() {
         return this.data.map(row => row.join('\t')).join('\n');
     }
+
+    sumaelementos(){
+
+        let sumatotal = 0;
+        for (let fil = 0; fil < 10; fil++) {
+            for (let col = 0; col < 10; col++) {
+                sumatotal += this.data[fil][col];
+            }
+        }
+        return sumatotal;
+    }
 }

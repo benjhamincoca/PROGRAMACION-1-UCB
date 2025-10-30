@@ -31,6 +31,7 @@ function initializeCanvas() {
     lineas_Paralelas.addEventListener('click', lineasParalelas);
     marcas_DeCruz.addEventListener('click', marcasDeCruz);
     romboDe_Esquinas.addEventListener('click', romboDeEsquinas);
+    sumaElementos.addEventListener('click', sumaelementos);
 }
 
 
@@ -163,6 +164,10 @@ function marcasDeCruz(){
 
 function romboDeEsquinas(){
     matrix.romboDeEsquinas();
+    drawMatrix();
+}
+function sumaelementos(){
+    matrix.sumaelementos();
     drawMatrix();
 }
 initializeCanvas();
